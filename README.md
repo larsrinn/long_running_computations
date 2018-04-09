@@ -45,3 +45,12 @@ drawbacks to be implemented in production:
   Hence, the user might think the server is down, while it is still computing.
 * The computation is re-triggered on a submit of the form, even if nothing has changed (however this could be solved
   easily).
+
+
+# Run
+Because the issues mostly arise, when the application is run in a production environment, one shouldn't use Django's
+`manage.py runserver` to evaluate how the server is blocked by the long running computation.
+I recommend using `gunicorn`, for a demonstration as well as for actual production usage.
+However, for demonstration I limit it to two worker because I want to be able to still use my machine.
+
+* `gunicorn long_running_computations.wsgi -w 2` for 2 workers (being able to run two computations simultaneously)
