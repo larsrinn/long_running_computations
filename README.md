@@ -53,4 +53,16 @@ Because the issues mostly arise, when the application is run in a production env
 I recommend using `gunicorn`, for a demonstration as well as for actual production usage.
 However, for demonstration I limit it to two worker because I want to be able to still use my machine.
 
+* Create a Python 3.6 virtual environment. I recommend using [pipenv](https://github.com/pypa/pipenv)
+* Activate the environment: `pipenv shell`
+* Install the dependencies: `pipenv install
+* Run the migrations `python manage.py migrate`
 * `gunicorn long_running_computations.wsgi -w 2` for 2 workers (being able to run two computations simultaneously)
+
+# Demo
+There is a demo on Heroku: https://long-running-computations.herokuapp.com/
+
+To set it up yourself, you need to define a couple of environment variables:
+* `DEBUG` (set to `False` !!!)
+* `PRODUCTION` (set to `True`)
+* `SECRET_KEY` (generate one [here](https://www.miniwebtool.com/django-secret-key-generator/))
