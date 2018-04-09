@@ -63,6 +63,12 @@ However, for demonstration I limit it to two worker because I want to be able to
 There is a demo on Heroku: https://long-running-computations.herokuapp.com/
 
 To set it up yourself, you need to define a couple of environment variables:
+
 * `DEBUG` (set to `False` !!!)
 * `PRODUCTION` (set to `True`)
 * `SECRET_KEY` (generate one [here](https://www.miniwebtool.com/django-secret-key-generator/))
+* Because you can't serve media files from a local folder in Heroku (it is deleted upon dyno-restart),
+  this application is configured to store media files on AWS S3. You need to set the environment variables
+  * `AWS_ACCESS_KEY_ID`
+  * `AWS_SECRET_ACCESS_KEY
+  * `AWS_STORAGE_BUCKET_NAME`

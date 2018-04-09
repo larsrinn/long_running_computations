@@ -1,3 +1,6 @@
+import hashlib
+import json
+
 from django.db import models
 from django.forms import model_to_dict
 from django.urls import reverse
@@ -27,7 +30,8 @@ class Configuration(models.Model):
         self_dict = model_to_dict(self)
         self_dict.pop('id')
         self_dict.pop('image')
-        return hash(frozenset(self_dict.items()))
+        hash_object = hashlib.md5(json.dumps(self_dict).encode('utf-8'))
+        return hash_object.hexdigest()
 
     def get_absolute_url(self):
         return reverse('configuration-update', args=[self.id])

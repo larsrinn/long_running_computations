@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load configuration_tags %}
 
 {% block content %}
     <section class="jumbotron text-center">
@@ -22,7 +23,7 @@
                 </div>
                 {% if object %}
                     <div class="col col-md-6 ml-md-auto mr-md-auto">
-                        <a href="{{ object.image.url}}">
+                        <a href="{{ object | fractal_url}}">
                             <img src="{{ object.image.url}}" class="rounded mx-auto d-block img-fluid">
                         </a>
                     </div>

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load configuration_tags %}
 
 {% block content %}
     <section class="jumbotron text-center">
@@ -21,7 +22,7 @@
                 {% for config in object_list %}
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="{{ config.image.url }}">
+                            <img class="card-img-top" src="{{ config | fractal_url }}">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
