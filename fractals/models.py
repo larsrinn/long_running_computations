@@ -23,7 +23,7 @@ class Configuration(models.Model):
     resolution = models.IntegerField(default=512, verbose_name='Resolution [px]',
                                      help_text='A squared image with the value as side length is created')
     colormap = models.CharField(max_length=20, choices=COLORMAP_CHOICES, default='nipy_spectral')
-    image = models.FileField(blank=True, null=True, default='default.png')
+    image = models.FileField(blank=True, null=True)
 
     @property
     def hash(self):

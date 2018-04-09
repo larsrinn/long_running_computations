@@ -6,6 +6,8 @@
 """
 Julia and Mandelbrot fractals image creation
 """
+import matplotlib  # NOQA
+matplotlib.use('Agg')  # NOQA
 
 import argparse
 import collections
