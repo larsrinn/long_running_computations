@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h3 class="jumbotron-heading">Edit Configuration</h3>
+            <p>
+                <a href="{% url 'configuration-list' %}" class="btn btn-secondary my-2">All Configurations</a>
+            </p>
+        </div>
+    </section>
+    <div class="bg-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col col-md-6 ml-md-auto mr-md-auto">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form | crispy}}
+                        <button type="submit" class="btn btn-primary">Speichern</button>
+                    </form>
+                </div>
+                {% if object %}
+                    <div class="col col-md-6 ml-md-auto mr-md-auto">
+                        <a href="{{ object.image.url}}">
+                            <img src="{{ object.image.url}}" class="rounded mx-auto d-block img-fluid">
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
