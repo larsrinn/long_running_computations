@@ -21,8 +21,10 @@
             <div class="row">
                 {% for config in object_list %}
                     <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="{{ config | fractal_url }}">
+                        <div class="card mb-4 box-shadow ">
+                            <div class="{{ config.computing|yesno:'spin, , ' }}">
+                                <img class="card-img-top {{ config.computing|yesno:'spin, , ' }}" src="{{ config | fractal_url }}">
+                            </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">

@@ -26,6 +26,7 @@ celery = {extras = ["redis"]}
 isort = "*"
 "autopep8" = "*"
 autoflake = "*"
+flower = "*"
 
 
 [requires]

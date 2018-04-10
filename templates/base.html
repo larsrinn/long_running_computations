@@ -1,6 +1,6 @@
 {% load static %}<!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -14,54 +14,91 @@
 
     <script src="{% static 'jquery.min.js' %}"></script>
 
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <header>
-      <div class="collapse bg-dark" id="navbarHeader">
+<header>
+    <div class="collapse bg-dark" id="navbarHeader">
         <div class="container">
-          <div class="row">
-            <div class="col-sm-8 col-md-7 py-4">
-              <h4 class="text-white">About</h4>
-              <p class="text-muted">
-                  This application was created by Lars Rinn for giving a talk explaining issues that arise in web applications when performing long running computations.
-                  Fractals are created using <a href="https://github.com/danilobellini/fractal">code written by Danilo Bellini</a>
-              </p>
+            <div class="row">
+                <div class="col-sm-8 col-md-7 py-4">
+                    <h4 class="text-white">About</h4>
+                    <p class="text-muted">
+                        This application was created by Lars Rinn for giving a talk explaining issues that arise in web
+                        applications when performing long running computations.
+                        Fractals are created using <a href="https://github.com/danilobellini/fractal">code written by
+                        Danilo Bellini</a>
+                    </p>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="navbar navbar-dark bg-dark box-shadow">
+    </div>
+    <div class="navbar navbar-dark bg-dark box-shadow">
         <div class="container d-flex justify-content-between">
-          <a href="{% url 'configuration-list' %}" class="navbar-brand d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-            <strong>Fractals</strong>
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+            <a href="{% url 'configuration-list' %}" class="navbar-brand d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+                <strong>Fractals</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
-      </div>
-    </header>
+    </div>
+</header>
 
-    <main role="main">
+<main role="main">
 
-        {% block content %}
-
-
-        {% endblock %}
+    {% block content %}
 
 
-    </main>
+    {% endblock %}
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-{#    <script src="../../../../assets/js/vendor/popper.min.js"></script>#}
-    <script src="{% static 'bootstrap.min.js' %}"></script>
-    <script src="{% static 'spin.min.js' %}"></script>
-  </body>
+
+</main>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="{% static 'bootstrap.min.js' %}"></script>
+<script src="{% static 'spin.min.js' %}"></script>
+{% if computing %}
+    <script src="{% static 'refresh-when-data-ready.js' %}" polling_url="{{ polling_url }}"></script>
+{% endif %}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        const opts = {
+            lines: 9, // The number of lines to draw
+            length: 7, // The length of each line
+            width: 5, // The line thickness
+            radius: 7, // The radius of the inner circle
+            scale: 1, // Scales overall size of the spinner
+            corners: 1, // Corner roundness (0..1)
+            color: '#000000', // CSS color or array of colors
+            fadeColor: 'transparent', // CSS color or array of colors
+            opacity: 0.25, // Opacity of the lines
+            rotate: 0, // The rotation offset
+            direction: 1, // 1: clockwise, -1: counterclockwise
+            speed: 1, // Rounds per second
+            trail: 60, // Afterglow percentage
+            fps: 20, // Frames per second when using setTimeout() as a fallback in IE 9
+            zIndex: 2e9, // The z-index (defaults to 2000000000)
+            className: 'spinner', // The CSS class to assign to the spinner
+            position: 'absolute' // Element positioning
+        };
+
+        $('.spin').each(function (i, target) {
+            new Spinner(opts).spin(target)
+        });
+    })
+</script>
+
+</body>
 </html>

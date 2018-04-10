@@ -64,12 +64,18 @@ Users should be notified that new results are available.
 And if outdated or default results are displayed, this should become clear to the user immediately.
 These issues will be tackled next.
 
-## Display ongoing computations and notify user
+## Display ongoing computations and notify user (current)
 To the user, it should be obvious that a computation is ongoing.
 And the user should be notified, if the computation is complete.
 
 In order to be able to do that, we need to have a mechanism to know which computations are going on.
 Again, let's start with the naive approach: Marking whether a computation is going on in the `Configuration` model.
+
+If the configuration is marked to be computing, a url is injected into the `context_data` while accessing the 
+`ConfigurationUpdate`-view. 
+The frontend uses this url to poll the backend continuously to check whether the computation is complete. 
+If the polling yields a complete computation, the page refereshes to display the new results.
+While the frontend is polling, the displayed result has a spinning overlay, to inform the user about the ongoing computation.
 
 # Run
 Because the issues mostly arise, when the application is run in a production environment, one shouldn't use Django's
@@ -103,3 +109,6 @@ To set it up yourself, you need to define a couple of environment variables:
   * `AWS_STORAGE_BUCKET_NAME`
 * Provision a redis server on Heroku: `heroku addons:create heroku-redis:hobby-dev`
 * Start the worker dynos: `heroku ps:restart worker`
+
+# Limitations
+* User is not notified for finished computations when on list view
