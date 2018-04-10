@@ -46,7 +46,7 @@ drawbacks to be implemented in production:
 * The computation is re-triggered on a submit of the form, even if nothing has changed (however this could be solved
   easily).
 * Really long computations (like one minute) will cause the server to timeout -
-  no results are being generated and the user simply receives an error
+  while results are being generated and the user receives a timeout error
 
 
 # Run
