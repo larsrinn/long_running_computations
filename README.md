@@ -64,7 +64,7 @@ Users should be notified that new results are available.
 And if outdated or default results are displayed, this should become clear to the user immediately.
 These issues will be tackled next.
 
-## Display ongoing computations and notify user (current)
+## Display ongoing computations and notify user
 To the user, it should be obvious that a computation is ongoing.
 And the user should be notified, if the computation is complete.
 
@@ -83,6 +83,14 @@ When the first task finishes, the computation is marked to be finished, even tho
 Hence, the page refreshes and displays the results of the first computation as the final results.
 The user is not notified, when the second results are ready.
 
+## Save results explicitly (current)
+To avoid the necessity for the task to edit the `Configuration` model, it makes sense to create an explicit `Result` model.
+If the form is saved a new `Result` is created, set to be computing and a task to actually compute the result is dispatched.
+After success, the `Result` instance is set to be complete and the created fractal is saved for the instance.
+If the user tries to access a configuration, always the last created result is accessed.
+That way, the issue described in the previous paragraph is solved.
+
+
 # Run
 Because the issues mostly arise, when the application is run in a production environment, one shouldn't use Django's
 `manage.py runserver` to evaluate how the server is blocked by the long running computation.
@@ -91,14 +99,14 @@ However, for demonstration I limit it to two worker because I want to be able to
 
 * Create a Python 3.6 virtual environment. I recommend using [pipenv](https://github.com/pypa/pipenv)
 * Activate the environment: `pipenv shell`
-* **Install the dependencies: `pipenv install`**
+* Install the dependencies: `pipenv install`
 * Run the migrations `python manage.py migrate`
 * `gunicorn long_running_computations.wsgi -w 2` for 2 workers (being able to run two computations simultaneously).
 *  **Restart gunicorn since it doesn't support hot reloading**
 * Install [redis](https://redis.io/) (for Windows, there is a [fork](https://github.com/MicrosoftArchive/redis)
   available). And start a redis server, simply by typing `redis-server` to the console.
-* Start celery workers: `celery -A long_running_computations worker -l info`
-  (on windows you have to append `--pool=solo`)
+* **Restart celery workers: `celery -A long_running_computations worker -l info`
+  (on windows you have to append `--pool=solo`) **
 
 # Demo
 There is a demo on Heroku: https://long-running-computations.herokuapp.com/
