@@ -17,6 +17,7 @@ dj-database-url = "*"
 whitenoise = "*"
 "boto3" = "*"
 django-storages = "*"
+celery = {extras = ["redis"]}
 
 
 [dev-packages]

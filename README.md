@@ -35,7 +35,7 @@ The code to generate the fractals is copied and pasted from
 
 # Versions
 
-## Naive Approach (current)
+## Naive Approach
 The naive approach is, to simply perform the computation in the `save` method, either of the form creating/updating
 a new configuration or the model storing the computation. While this is by far the easiest solution, it has too many
 drawbacks to be implemented in production:
@@ -43,10 +43,15 @@ drawbacks to be implemented in production:
 * Too many computations in parallel block the web server, even for responding to requests not triggering computations.
 * The user experience is poor, since submitting a form takes as long as the computation needs to finish.
   Hence, the user might think the server is down, while it is still computing.
-* The computation is re-triggered on a submit of the form, even if nothing has changed (however this could be solved
-  easily).
 * Really long computations (like one minute) will cause the server to timeout -
   while results are being generated and the user receives a timeout error
+* The computation is re-triggered on a submit of the form, even if nothing has changed (however this could be solved
+  easily).
+
+## Start using celery
+To overcome all but the last drawback, let's start by using
+[celery](http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html) as a queueing system
+with [redis](https://redis.io/) as message broker. You need to perform the bold steps from the *Run* section below.
 
 
 # Run
@@ -57,9 +62,12 @@ However, for demonstration I limit it to two worker because I want to be able to
 
 * Create a Python 3.6 virtual environment. I recommend using [pipenv](https://github.com/pypa/pipenv)
 * Activate the environment: `pipenv shell`
-* Install the dependencies: `pipenv install
+* **Install the dependencies: `pipenv install`**
 * Run the migrations `python manage.py migrate`
-* `gunicorn long_running_computations.wsgi -w 2` for 2 workers (being able to run two computations simultaneously)
+* `gunicorn long_running_computations.wsgi -w 2` for 2 workers (being able to run two computations simultaneously).
+*  **Restart gunicorn since it doesn't support hot reloading**
+* **Install [redis](https://redis.io/) (for Windows, there is a [fork](https://github.com/MicrosoftArchive/redis)
+  available). And start a redis server, simply by typing `redis-server` to the console.**
 
 # Demo
 There is a demo on Heroku: https://long-running-computations.herokuapp.com/
