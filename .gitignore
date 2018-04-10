@@ -232,3 +232,5 @@ pip-selfcheck.json
 
 db.sqlite3
 notes.md
+media/
+staticfiles/
