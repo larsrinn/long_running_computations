@@ -77,6 +77,12 @@ The frontend uses this url to poll the backend continuously to check whether the
 If the polling yields a complete computation, the page refereshes to display the new results.
 While the frontend is polling, the displayed result has a spinning overlay, to inform the user about the ongoing computation.
 
+Now imagine what happens if the user changes the configuration twice in a short period of time. 
+The first time, the configuration-model is marked to be computing.
+When the first task finishes, the computation is marked to be finished, even though the second computation is still going on.
+Hence, the page refreshes and displays the results of the first computation as the final results.
+The user is not notified, when the second results are ready.
+
 # Run
 Because the issues mostly arise, when the application is run in a production environment, one shouldn't use Django's
 `manage.py runserver` to evaluate how the server is blocked by the long running computation.
@@ -89,7 +95,7 @@ However, for demonstration I limit it to two worker because I want to be able to
 * Run the migrations `python manage.py migrate`
 * `gunicorn long_running_computations.wsgi -w 2` for 2 workers (being able to run two computations simultaneously).
 *  **Restart gunicorn since it doesn't support hot reloading**
-* nstall [redis](https://redis.io/) (for Windows, there is a [fork](https://github.com/MicrosoftArchive/redis)
+* Install [redis](https://redis.io/) (for Windows, there is a [fork](https://github.com/MicrosoftArchive/redis)
   available). And start a redis server, simply by typing `redis-server` to the console.
 * Start celery workers: `celery -A long_running_computations worker -l info`
   (on windows you have to append `--pool=solo`)
