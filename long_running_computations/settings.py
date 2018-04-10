@@ -142,6 +142,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+
+# Celery
+CELERY_BROKER_URL = config('REDIS_URL', default='redis://')
+CELERY_REDIS_MAX_CONNECTIONS = 20  # limit of Heroku's "hobby" Redis addon
+
+
 if PRODUCTION:
     #  SECURITY
     SECURE_SSL_REDIRECT = True
