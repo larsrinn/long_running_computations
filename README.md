@@ -91,10 +91,19 @@ If the user tries to access a configuration, always the last created result is a
 That way, the issue described in the previous paragraph is solved.
 
 
-## Monitoring (current)
+## Monitoring
 Currently it is very hard to get insight into what is going on inside *celery* and *redis*.
 A great monitoring tool is [flower](http://flower.readthedocs.io/en/latest/).
 To setup and access it, follow the bold steps from the *Run* section below (again).
+
+
+## Revoking tasks (current)
+Using flower, we can now see what happens if the form is submitted many times in a short amount of time.
+For each submit a new task is submitted.
+No matter if the configuration has changed or is already outdated.
+This causes the queue to be cluttered with computations that are not relevant (anymore).
+To save time and server costs, let's try to revoke tasks when a new configuration is submitted.
+Flower will help to investigate whether revoking the tasks actually works.
 
 
 # Run

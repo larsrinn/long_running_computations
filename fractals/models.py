@@ -1,6 +1,7 @@
 import hashlib
 import json
 
+from celery.result import AsyncResult
 from django.db import models
 from django.forms import model_to_dict
 from django.urls import reverse
@@ -53,11 +54,17 @@ class Configuration(models.Model):
             image=self.latest_configuration_result.image,
         )
 
+    def revoke_computing_computations(self):
+        for old_result in self.results.all():
+            if old_result.computing:
+                AsyncResult(old_result.task_id).revoke()
+
 
 class Result(models.Model):
     configuration = models.ForeignKey(Configuration, on_delete=models.CASCADE, related_name='results')
     image = models.FileField(blank=True, null=True)
     computing = models.BooleanField()
+    task_id = models.CharField(max_length=36)
 
     def set_result(self, content_file):
         self.image.save(name='fractal.png', content=content_file)  # django avoids duplicate names automatically
