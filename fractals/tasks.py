@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 
 from celery import shared_task
-from fractals.models import Configuration, Result
+from fractals.models import Result
 
 
 @shared_task

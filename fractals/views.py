@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.urls import reverse
-from django.views.generic import CreateView, ListView, UpdateView, View
+from django.views.generic import CreateView, ListView, UpdateView
 
 from fractals.forms import ConfigurationForm
 from fractals.models import Configuration

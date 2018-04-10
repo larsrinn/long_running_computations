@@ -20,8 +20,6 @@ from itertools import takewhile
 import pylab
 
 
-
-
 Point = collections.namedtuple("Point", ["x", "y"])
 
 
