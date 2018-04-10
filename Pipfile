@@ -18,6 +18,7 @@ whitenoise = "*"
 "boto3" = "*"
 django-storages = "*"
 celery = {extras = ["redis"]}
+flower = "*"
 
 
 [dev-packages]
@@ -26,7 +27,6 @@ celery = {extras = ["redis"]}
 isort = "*"
 "autopep8" = "*"
 autoflake = "*"
-flower = "*"
 
 
 [requires]
