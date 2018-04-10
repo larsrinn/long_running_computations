@@ -25,16 +25,16 @@ class Configuration(models.Model):
     colormap = models.CharField(max_length=20, choices=COLORMAP_CHOICES, default='nipy_spectral')
 
     @property
-    def latest_configuration_result(self):
-        return self.results.last()
+    def latest_configuration_computation(self):
+        return self.computations.last()
 
     @property
     def computing(self):
-        return self.latest_configuration_result.computing
+        return self.latest_configuration_computation.computing
 
     @property
     def image(self):
-        return self.latest_configuration_result.image
+        return self.latest_configuration_computation.image
 
     @property
     def hash(self):
@@ -47,15 +47,15 @@ class Configuration(models.Model):
         return reverse('configuration-update', args=[self.id])
 
     def set_computing(self):
-        return Result.objects.create(
+        return Computation.objects.create(
             configuration=self,
             computing=True,
-            image=self.latest_configuration_result.image,
+            image=self.latest_configuration_computation.image,
         )
 
 
-class Result(models.Model):
-    configuration = models.ForeignKey(Configuration, on_delete=models.CASCADE, related_name='results')
+class Computation(models.Model):
+    configuration = models.ForeignKey(Configuration, on_delete=models.CASCADE, related_name='computations')
     image = models.FileField(blank=True, null=True)
     computing = models.BooleanField()
 
