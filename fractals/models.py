@@ -23,14 +23,23 @@ class Configuration(models.Model):
     resolution = models.IntegerField(default=512, verbose_name='Resolution [px]',
                                      help_text='A squared image with the value as side length is created')
     colormap = models.CharField(max_length=20, choices=COLORMAP_CHOICES, default='nipy_spectral')
-    image = models.FileField(blank=True, null=True)
-    computing = models.BooleanField(default=False)
+
+    @property
+    def latest_configuration_result(self):
+        return self.results.last()
+
+    @property
+    def computing(self):
+        return self.latest_configuration_result.computing
+
+    @property
+    def image(self):
+        return self.latest_configuration_result.image
 
     @property
     def hash(self):
         self_dict = model_to_dict(self)
         self_dict.pop('id')
-        self_dict.pop('image')
         hash_object = hashlib.md5(json.dumps(self_dict).encode('utf-8'))
         return hash_object.hexdigest()
 
@@ -38,9 +47,19 @@ class Configuration(models.Model):
         return reverse('configuration-update', args=[self.id])
 
     def set_computing(self):
-        self.computing = True
-        self.save()
+        return Result.objects.create(
+            configuration=self,
+            computing=True,
+            image=self.latest_configuration_result.image,
+        )
 
-    def set_computation_complete(self):
+
+class Result(models.Model):
+    configuration = models.ForeignKey(Configuration, on_delete=models.CASCADE, related_name='results')
+    image = models.FileField(blank=True, null=True)
+    computing = models.BooleanField()
+
+    def set_result(self, content_file):
+        self.image.save(name='fractal.png', content=content_file)  # django avoids duplicate names automatically
         self.computing = False
         self.save()
