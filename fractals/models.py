@@ -51,7 +51,6 @@ class Configuration(models.Model):
         return Computation.objects.create(
             configuration=self,
             computing=True,
-            image=self.latest_configuration_computation.image,
         )
 
     def revoke_computing_computations(self):
