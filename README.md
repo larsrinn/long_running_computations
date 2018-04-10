@@ -96,3 +96,4 @@ To set it up yourself, you need to define a couple of environment variables:
   * `AWS_SECRET_ACCESS_KEY`
   * `AWS_STORAGE_BUCKET_NAME`
 * **Provision a redis server on Heroku: `heroku addons:create heroku-redis:hobby-dev`**
+* **Start the worker dynos: `heroku ps:restart worker`**
