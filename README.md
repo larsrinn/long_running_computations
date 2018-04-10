@@ -84,10 +84,10 @@ Hence, the page refreshes and displays the results of the first computation as t
 The user is not notified, when the second results are ready.
 
 ## Save results explicitly (current)
-To avoid the necessity for the task to edit the `Configuration` model, it makes sense to create an explicit `Result` model.
-If the form is saved a new `Result` is created, set to be computing and a task to actually compute the result is dispatched.
-After success, the `Result` instance is set to be complete and the created fractal is saved for the instance.
-If the user tries to access a configuration, always the last created result is accessed.
+To avoid the necessity for the task to edit the `Configuration` model, it makes sense to create an explicit `Computation` model.
+If the form is saved a new `Computation` is created, set to be computing and a task to actually compute the result is dispatched.
+After success, the `Computation` instance is set to be complete and the created fractal is saved for the instance.
+If the user tries to access a configuration, always the last created computation is accessed.
 That way, the issue described in the previous paragraph is solved.
 
 

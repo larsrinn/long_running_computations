@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from fractals.models import Configuration, Result
+from fractals.models import Configuration, Computation
 
 admin.site.register(Configuration)
-admin.site.register(Result)
+admin.site.register(Computation)

@@ -5,13 +5,13 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 
 from celery import shared_task
-from fractals.models import Result
+from fractals.models import Computation
 
 
 @shared_task
-def create_fractal(result_id):
-    result = Result.objects.get(id=result_id)
-    configuration = result.configuration
+def create_fractal(computation_id):
+    computation = Computation.objects.get(id=computation_id)
+    configuration = computation.configuration
 
     filename = f'{configuration.hash}.png'
     filename_with_path = f'{settings.BASE_DIR}/{filename}'
@@ -29,7 +29,7 @@ def create_fractal(result_id):
         with open(filename_with_path, 'rb') as f:
             image_data = f.read()
         content_file = ContentFile(image_data)
-        result.set_result(content_file)
+        computation.set_result(content_file)
         os.remove(filename_with_path)
 
 

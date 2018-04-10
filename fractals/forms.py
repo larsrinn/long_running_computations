@@ -11,6 +11,6 @@ class ConfigurationForm(forms.ModelForm):
 
     def save(self, commit=True):
         instance = super().save(commit=commit)
-        result = instance.set_computing()
-        create_fractal.delay(result.id)
+        computation = instance.set_computing()
+        create_fractal.delay(computation.id)
         return instance
