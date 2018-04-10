@@ -12,8 +12,8 @@ class ConfigurationForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super().save(commit=commit)
         instance.revoke_computing_computations()
-        result = instance.set_computing()
-        async_result = create_fractal.delay(result.id)
-        result.task_id = async_result.id
-        result.save()
+        computation = instance.set_computing()
+        async_result = create_fractal.delay(computation.id)
+        computation.task_id = async_result.id
+        computation.save()
         return instance
