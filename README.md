@@ -48,10 +48,21 @@ drawbacks to be implemented in production:
 * The computation is re-triggered on a submit of the form, even if nothing has changed (however this could be solved
   easily).
 
-## Start using celery
+## Start using celery (current)
 To overcome all but the last drawback, let's start by using
 [celery](http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html) as a queueing system
 with [redis](https://redis.io/) as message broker. You need to perform the bold steps from the *Run* section below.
+
+Now, if the user submits the form, a task is dispatched on the message broker, which will be picked up by one of the
+workers. The user is immediately redirected to the page displaying the fractal.
+However, since it is still being computed, a *default*-fractal is displayed.
+Users can dispatch an arbitrary amount of computations without causing any blocks for serving the http requests.
+
+If the computation is completed and the user refreshes the page, the new fractal is displayed.
+Of course this solution is not ideal.
+Users should be notified that new results are available.
+And if outdated or default results are displayed, this should become clear to the user immediately.
+These issues will be tackled next.
 
 
 # Run
