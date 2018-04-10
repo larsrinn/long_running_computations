@@ -29,6 +29,8 @@ def create_fractal(configuration_id):
         configuration.image.save(filename, ContentFile(image_data))
         os.remove(filename_with_path)
 
+    configuration.set_computation_complete()
+
 
 def float_to_str_with_sign(value):
     sign = '+' if value >= 0 else ''

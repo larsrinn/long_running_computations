@@ -24,6 +24,7 @@ class Configuration(models.Model):
                                      help_text='A squared image with the value as side length is created')
     colormap = models.CharField(max_length=20, choices=COLORMAP_CHOICES, default='nipy_spectral')
     image = models.FileField(blank=True, null=True)
+    computing = models.BooleanField(default=False)
 
     @property
     def hash(self):
@@ -35,3 +36,11 @@ class Configuration(models.Model):
 
     def get_absolute_url(self):
         return reverse('configuration-update', args=[self.id])
+
+    def set_computing(self):
+        self.computing = True
+        self.save()
+
+    def set_computation_complete(self):
+        self.computing = False
+        self.save()

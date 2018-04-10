@@ -1,0 +1,16 @@
+.spin {
+    position: relative  /* required for spinner to position properly */
+}
+
+/* transparent overlay */
+.spin:after {
+  content: " ";
+  z-index: 10;
+  display: block;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.5);
+}

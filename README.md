@@ -48,7 +48,7 @@ drawbacks to be implemented in production:
 * The computation is re-triggered on a submit of the form, even if nothing has changed (however this could be solved
   easily).
 
-## Start using celery (current)
+## Start using celery
 To overcome all but the last drawback, let's start by using
 [celery](http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html) as a queueing system
 with [redis](https://redis.io/) as message broker. You need to perform the bold steps from the *Run* section below.
@@ -64,6 +64,12 @@ Users should be notified that new results are available.
 And if outdated or default results are displayed, this should become clear to the user immediately.
 These issues will be tackled next.
 
+## Display ongoing computations and notify user
+To the user, it should be obvious that a computation is ongoing.
+And the user should be notified, if the computation is complete.
+
+In order to be able to do that, we need to have a mechanism to know which computations are going on.
+Again, let's start with the naive approach: Marking whether a computation is going on in the `Configuration` model.
 
 # Run
 Because the issues mostly arise, when the application is run in a production environment, one shouldn't use Django's
@@ -77,8 +83,8 @@ However, for demonstration I limit it to two worker because I want to be able to
 * Run the migrations `python manage.py migrate`
 * `gunicorn long_running_computations.wsgi -w 2` for 2 workers (being able to run two computations simultaneously).
 *  **Restart gunicorn since it doesn't support hot reloading**
-* **Install [redis](https://redis.io/) (for Windows, there is a [fork](https://github.com/MicrosoftArchive/redis)
-  available). And start a redis server, simply by typing `redis-server` to the console.**
+* nstall [redis](https://redis.io/) (for Windows, there is a [fork](https://github.com/MicrosoftArchive/redis)
+  available). And start a redis server, simply by typing `redis-server` to the console.
 * Start celery workers: `celery -A long_running_computations worker -l info`
   (on windows you have to append `--pool=solo`)
 
@@ -95,5 +101,5 @@ To set it up yourself, you need to define a couple of environment variables:
   * `AWS_ACCESS_KEY_ID`
   * `AWS_SECRET_ACCESS_KEY`
   * `AWS_STORAGE_BUCKET_NAME`
-* **Provision a redis server on Heroku: `heroku addons:create heroku-redis:hobby-dev`**
-* **Start the worker dynos: `heroku ps:restart worker`**
+* Provision a redis server on Heroku: `heroku addons:create heroku-redis:hobby-dev`
+* Start the worker dynos: `heroku ps:restart worker`
