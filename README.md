@@ -105,6 +105,17 @@ This causes the queue to be cluttered with computations that are not relevant (a
 To save time and server costs, let's try to revoke tasks when a new configuration is submitted.
 Flower will help to investigate whether revoking the tasks actually works.
 
+To be able to revoke a task, we need it's `task_id`. 
+To have access to it, it is saved on the `Computation` model.
+This yields the possibility to use celery's 
+[revoke](http://docs.celeryproject.org/en/latest/userguide/workers.html#commands) command for all tasks that are marked
+to be computing.
+
+Please note that revoking a task does not cancel it, if it is already executing.
+The task is only marked to be *revoked*, which avoids it being picked up by workers.
+You can force to cancel a task that is being processed by calling the `revoke` command using `terminate=True` as argument.
+However the celery documentation states this to be the last resort for admins that should not be executed programmatically.
+
 
 # Run
 Because the issues mostly arise, when the application is run in a production environment, one shouldn't use Django's
