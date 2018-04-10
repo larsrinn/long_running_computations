@@ -55,7 +55,7 @@ class Configuration(models.Model):
         )
 
     def revoke_computing_computations(self):
-        for old_result in self.results.all():
+        for old_result in self.computations.all():
             if old_result.computing:
                 AsyncResult(old_result.task_id).revoke()
 
