@@ -8,6 +8,7 @@ register = template.Library()
 
 @register.filter
 def fractal_url(configuration: Configuration):
-    if configuration.image is not None:
+    try:
         return configuration.image.url
-    return static("fractals/default.png")
+    except ValueError:
+        return static("fractals/default.png")
