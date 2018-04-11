@@ -24,7 +24,7 @@
                 {% if object %}
                     <div class="col col-md-6 ml-md-auto mr-md-auto">
                         <a href="{{ object | fractal_url}}">
-                            <img src="{{ object.image.url}}" class="rounded mx-auto d-block img-fluid">
+                            <img src="{{ object | fractal_url}}" class="rounded mx-auto d-block img-fluid">
                         </a>
                     </div>
                 {% endif %}
